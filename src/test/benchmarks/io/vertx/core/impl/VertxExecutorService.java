@@ -20,10 +20,10 @@ import java.util.concurrent.TimeUnit;
  */
 public class VertxExecutorService extends ThreadPoolExecutor {
 
-  public VertxExecutorService(int maxThreads, String prefix) {
+  public VertxExecutorService(int maxThreads, String prefix, boolean autoKillBlockingThread) {
     super(maxThreads, maxThreads,
         0L, TimeUnit.MILLISECONDS,
         new LinkedBlockingQueue<>(),
-        new VertxThreadFactory(prefix, new BlockedThreadChecker(10000, TimeUnit.MILLISECONDS, 10000, TimeUnit.MILLISECONDS), false, 10000, TimeUnit.NANOSECONDS));
+        new VertxThreadFactory(prefix, new BlockedThreadChecker(10000, TimeUnit.MILLISECONDS, 10000, TimeUnit.MILLISECONDS, autoKillBlockingThread), false, 10000, TimeUnit.NANOSECONDS));
   }
 }

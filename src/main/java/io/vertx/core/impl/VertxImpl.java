@@ -144,7 +144,7 @@ public class VertxImpl implements VertxInternal, MetricsProvider {
       log.warn("You're already on a Vert.x context, are you sure you want to create a new Vertx instance?");
     }
     closeHooks = new CloseHooks(log);
-    checker = new BlockedThreadChecker(options.getBlockedThreadCheckInterval(), options.getBlockedThreadCheckIntervalUnit(), options.getWarningExceptionTime(), options.getWarningExceptionTimeUnit());
+    checker = new BlockedThreadChecker(options.getBlockedThreadCheckInterval(), options.getBlockedThreadCheckIntervalUnit(), options.getWarningExceptionTime(), options.getWarningExceptionTimeUnit(), options.isAutoKillBlockingThread());
     threadFactoryProvider = ServiceHelper.loadFactoryOrNull(VertxThreadFactoryProvider.class);
     executorFactory = ServiceHelper.loadFactoryOrNull(ExecutorServiceFactory.class);
     if (executorFactory == null)

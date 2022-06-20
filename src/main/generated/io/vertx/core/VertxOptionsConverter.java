@@ -19,6 +19,11 @@ import java.time.format.DateTimeFormatter;
             obj.setAddressResolverOptions(new io.vertx.core.dns.AddressResolverOptions((JsonObject)member.getValue()));
           }
           break;
+        case "autoKillBlockingThread":
+          if (member.getValue() instanceof Boolean) {
+            obj.setAutoKillBlockingThread((Boolean)member.getValue());
+          }
+          break;
         case "blockedThreadCheckInterval":
           if (member.getValue() instanceof Number) {
             obj.setBlockedThreadCheckInterval(((Number)member.getValue()).longValue());
@@ -161,6 +166,7 @@ import java.time.format.DateTimeFormatter;
     if (obj.getAddressResolverOptions() != null) {
       json.put("addressResolverOptions", obj.getAddressResolverOptions().toJson());
     }
+    json.put("autoKillBlockingThread", obj.isAutoKillBlockingThread());
     json.put("blockedThreadCheckInterval", obj.getBlockedThreadCheckInterval());
     if (obj.getBlockedThreadCheckIntervalUnit() != null) {
       json.put("blockedThreadCheckIntervalUnit", obj.getBlockedThreadCheckIntervalUnit().name());

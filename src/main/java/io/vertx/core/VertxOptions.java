@@ -166,6 +166,11 @@ public class VertxOptions {
    */
   public static final TimeUnit DEFAULT_WARNING_EXCEPTION_TIME_UNIT = TimeUnit.NANOSECONDS;
 
+  /**
+   * The default value of auto kill blocking thread
+   */
+  public static final boolean DEFAULT_AUTO_KILL_BLOCKING_THREAD = false;
+
   private int eventLoopPoolSize = DEFAULT_EVENT_LOOP_POOL_SIZE;
   private int workerPoolSize = DEFAULT_WORKER_POOL_SIZE;
   private int internalBlockingPoolSize = DEFAULT_INTERNAL_BLOCKING_POOL_SIZE;
@@ -186,6 +191,7 @@ public class VertxOptions {
   private TimeUnit maxWorkerExecuteTimeUnit = DEFAULT_MAX_WORKER_EXECUTE_TIME_UNIT;
   private TimeUnit warningExceptionTimeUnit = DEFAULT_WARNING_EXCEPTION_TIME_UNIT;
   private TimeUnit blockedThreadCheckIntervalUnit = DEFAULT_BLOCKED_THREAD_CHECK_INTERVAL_UNIT;
+  private boolean autoKillBlockingThread = DEFAULT_AUTO_KILL_BLOCKING_THREAD;
 
   /**
    * Default constructor
@@ -218,6 +224,7 @@ public class VertxOptions {
     this.maxWorkerExecuteTimeUnit = other.maxWorkerExecuteTimeUnit;
     this.warningExceptionTimeUnit = other.warningExceptionTimeUnit;
     this.blockedThreadCheckIntervalUnit = other.blockedThreadCheckIntervalUnit;
+    this.autoKillBlockingThread = other.autoKillBlockingThread;
   }
 
   /**
@@ -895,6 +902,24 @@ public class VertxOptions {
     return this;
   }
 
+  /**
+   * @return is auto kill blocking thread setting
+   */
+  public boolean isAutoKillBlockingThread() {
+    return autoKillBlockingThread;
+  }
+
+  /**
+   * Set auto kill blocking thread {@code autoKillBlockingThread}.
+   *
+   * @param autoKillBlockingThread is true will be kill thread which timeout
+   * @return a reference to this, so the API can be used fluently
+   */
+  public VertxOptions setAutoKillBlockingThread(boolean autoKillBlockingThread) {
+    this.autoKillBlockingThread = autoKillBlockingThread;
+    return this;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
@@ -926,6 +951,7 @@ public class VertxOptions {
     if (fileSystemOptions != null ? !fileSystemOptions.equals(that.fileSystemOptions) : that.fileSystemOptions != null) {
       return false;
     }
+    if (isAutoKillBlockingThread() != that.isAutoKillBlockingThread()) return false;
     return !(metricsOptions != null ? !metricsOptions.equals(that.metricsOptions) : that.metricsOptions != null);
   }
 
@@ -951,6 +977,7 @@ public class VertxOptions {
     result = 31 * result + (maxWorkerExecuteTimeUnit != null ? maxWorkerExecuteTimeUnit.hashCode() : 0);
     result = 31 * result + (warningExceptionTimeUnit != null ? warningExceptionTimeUnit.hashCode() : 0);
     result = 31 * result + (blockedThreadCheckIntervalUnit != null ? blockedThreadCheckIntervalUnit.hashCode() : 0);
+    result = 31 * result + (autoKillBlockingThread ? 1 : 0);
     return result;
   }
 
@@ -978,6 +1005,7 @@ public class VertxOptions {
         ", eventbus=" + eventBusOptions.toJson() +
         ", warningExceptionTimeUnit=" + warningExceptionTimeUnit +
         ", warningExceptionTime=" + warningExceptionTime +
+        ", isAutoKillBlockingThread=" + autoKillBlockingThread +
         '}';
   }
 }

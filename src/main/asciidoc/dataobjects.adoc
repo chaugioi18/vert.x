@@ -2137,6 +2137,9 @@ Set whether Netty pooled buffers are enabled
 |[[addressResolverOptions]]`@addressResolverOptions`|`link:dataobjects.html#AddressResolverOptions[AddressResolverOptions]`|+++
 Sets the address resolver configuration to configure resolving DNS servers, cache TTL, etc...
 +++
+|[[autoKillBlockingThread]]`@autoKillBlockingThread`|`Boolean`|+++
+Set auto kill blocking thread <code>autoKillBlockingThread</code>.
++++
 |[[blockedThreadCheckInterval]]`@blockedThreadCheckInterval`|`Number (long)`|+++
 Sets the value of blocked thread check period, in link.
  <p>

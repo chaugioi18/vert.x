@@ -40,7 +40,7 @@ public class BlockedThreadChecker {
   private final Map<Thread, Task> threads = new WeakHashMap<>();
   private final Timer timer; // Need to use our own timer - can't use event loop for this
 
-  BlockedThreadChecker(long interval, TimeUnit intervalUnit, long warningExceptionTime, TimeUnit warningExceptionTimeUnit) {
+  BlockedThreadChecker(long interval, TimeUnit intervalUnit, long warningExceptionTime, TimeUnit warningExceptionTimeUnit, boolean autoKillBlockingThread) {
     timer = new Timer("vertx-blocked-thread-checker", true);
     timer.schedule(new TimerTask() {
       @Override
@@ -61,6 +61,12 @@ public class BlockedThreadChecker {
                 VertxException stackTrace = new VertxException("Thread blocked");
                 stackTrace.setStackTrace(entry.getKey().getStackTrace());
                 log.warn(message, stackTrace);
+                if (autoKillBlockingThread) {
+                  log.warn("Thread " + entry + " has been blocked too long. Interrupt thread");
+                  if (entry.getKey().isAlive()) {
+                    entry.getKey().interrupt();
+                  }
+                }
               }
             }
           }
